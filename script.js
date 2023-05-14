@@ -100,7 +100,8 @@ function saveName(event) {
       const compSelect = Math.floor(Math.random() * rockPaperSciss.length);
       computerChoice.src = `images/${rockPaperSciss[compSelect]}`;
 
-      const iL = "http://127.0.0.1:5502/images/";
+      const iL =
+        "	https://theonorris.github.io/webb23-js1-mp2-theo-norris/images/";
 
       if (
         (rps.src == `${iL}rock.jpg` &&
