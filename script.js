@@ -101,6 +101,7 @@ function saveName(event) {
       computerChoice.src = `images/${rockPaperSciss[compSelect]}`;
 
       const iL = "http://127.0.0.1:5502/images/";
+
       if (
         (rps.src == `${iL}rock.jpg` &&
           computerChoice.src == `${iL}scissors.jpg`) ||
@@ -131,15 +132,11 @@ function saveName(event) {
       }
 
       if (computerScore == 3) {
-        scoreHead.innerText = `Score: ${playerScore}`;
-        const loserText = document.createElement("h1");
-        playerDiv.appendChild(loserText);
         alert(
           `You suuuuuuuck, ${name.value}! You just lost three games! Have another go!`
         );
         reset();
       } else if (playerScore == 3) {
-        scoreHeadComp.innerText = `Score: ${computerScore}`;
         alert(
           `EYYYY! ${name.value}, You are awesome!! You just won three games! Another Game?`
         );
