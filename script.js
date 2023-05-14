@@ -64,7 +64,7 @@ function saveName(event) {
   const scoreHead = document.createElement("h2");
   playerDiv.appendChild(scoreHead);
 
-  const rockPaperSciss = ["rock.jpg", "paper.jpg", "scissors.jpg"];
+  const rockPaperSciss = ["rock", "paper", "scissors"];
 
   const computerDiv = createplayerDivs(null, "Computer");
   computerDiv.style.width = "40%";
@@ -91,35 +91,27 @@ function saveName(event) {
   for (let i = 0; i < rockPaperSciss.length; i++) {
     const rps = document.createElement("img");
     rockPaperDiv.appendChild(rps);
-    rps.src = `images/${rockPaperSciss[i]}`;
+    rps.src = `images/${rockPaperSciss[i]}.jpg`;
     rps.style.width = "100px";
     rps.style.height = "100px";
     rps.style.margin = "10px";
 
     rps.addEventListener("click", function () {
       const compSelect = Math.floor(Math.random() * rockPaperSciss.length);
-      computerChoice.src = `images/${rockPaperSciss[compSelect]}`;
-
-      const iL =
-        "https://theonorris.github.io/webb23-js1-mp2-theo-norris/images/";
+      const computerTurn = rockPaperSciss[compSelect];
+      computerChoice.src = `images/${computerTurn}.jpg`;
 
       if (
-        (rps.src == `${iL}rock.jpg` &&
-          computerChoice.src == `${iL}scissors.jpg`) ||
-        (rps.src == `${iL}paper.jpg` &&
-          computerChoice.src == `${iL}rock.jpg`) ||
-        (rps.src == `${iL}scissors.jpg` &&
-          computerChoice.src == `${iL}paper.jpg`)
+        (rockPaperSciss[i] == `rock` && computerTurn == `scissors`) ||
+        (rockPaperSciss[i] == `paper` && computerTurn == `rock`) ||
+        (rockPaperSciss[i] == `scissors` && computerTurn == `paper`)
       ) {
         playerScore++;
         scoreHead.innerText = `Score: ${playerScore}`;
       } else if (
-        (computerChoice.src == `${iL}rock.jpg` &&
-          rps.src == `${iL}scissors.jpg`) ||
-        (computerChoice.src == `${iL}paper.jpg` &&
-          rps.src == `${iL}rock.jpg`) ||
-        (computerChoice.src == `${iL}scissors.jpg` &&
-          rps.src == `${iL}paper.jpg`)
+        (computerTurn == `rock` && rockPaperSciss[i] == `scissors`) ||
+        (computerTurn == `paper` && rockPaperSciss[i] == `rock`) ||
+        (computerTurn == `scissors` && rockPaperSciss[i] == `paper`)
       ) {
         computerScore++;
         scoreHeadComp.innerText = `Score: ${computerScore}`;
