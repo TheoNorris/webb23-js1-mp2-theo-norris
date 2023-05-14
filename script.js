@@ -101,7 +101,7 @@ function saveName(event) {
       computerChoice.src = `images/${rockPaperSciss[compSelect]}`;
 
       const iL =
-        "	https://theonorris.github.io/webb23-js1-mp2-theo-norris/images/";
+        "https://theonorris.github.io/webb23-js1-mp2-theo-norris/images/";
 
       if (
         (rps.src == `${iL}rock.jpg` &&
