@@ -7,22 +7,16 @@ form.addEventListener("submit", createGame);
 
 function createGame(event) {
   event.preventDefault();
-  const name = document.querySelector("#name");
+  const name = document.querySelector("#name").value;
   form.remove();
 
   const gameDiv = document.createElement("div");
   document.body.append(gameDiv);
-  gameDiv.style.display = "flex";
-  gameDiv.style.justifyContent = "center";
-  gameDiv.style.flexDirection = "column";
-  gameDiv.style.margin = "10%";
-  gameDiv.style.border = "1px solid hotpink";
-  gameDiv.style.padding = "50px";
-  gameDiv.style.textAlign = "center";
+  gameDiv.className = "game-div";
 
   const nameH1 = document.createElement("h1");
   gameDiv.appendChild(nameH1);
-  nameH1.innerText = `Welcome ${name.value}!`;
+  nameH1.innerText = `Welcome ${name}!`;
 
   const descriptionP = document.createElement("p");
   gameDiv.appendChild(descriptionP);
@@ -31,42 +25,32 @@ function createGame(event) {
 
   const choiceDiv = document.createElement("div");
   gameDiv.appendChild(choiceDiv);
-  choiceDiv.style.display = "flex";
-  choiceDiv.style.flexDirection = "row";
-  choiceDiv.style.padding = "30px";
-  choiceDiv.style.border = "1px solid hotpink";
-  choiceDiv.style.flexWrap = "wrap";
-  choiceDiv.style.gap = "50px";
+  choiceDiv.className = "choice-div";
 
-  function createplayerDivs(div, player) {
+  function createplayerDivs(player) {
     div = document.createElement("div");
     choiceDiv.appendChild(div);
-    div.style.border = "1px solid hotpink";
-    div.style.padding = "30px";
-    div.style.display = "flex";
-    div.style.flexDirection = "column";
+    div.className = "player-div";
+
     const playerName = document.createElement("h1");
     div.appendChild(playerName);
     playerName.innerText = player;
     const rockPaperDiv = document.createElement("div");
     div.appendChild(rockPaperDiv);
-    rockPaperDiv.style.display = "flex";
-    rockPaperDiv.style.flexDirection = "row";
+    rockPaperDiv.className = "rockpaper-div";
 
     return div;
   }
 
-  const playerDiv = createplayerDivs(null, name.value);
+  const playerDiv = createplayerDivs(name);
   const rockPaperDiv = document.createElement("div");
   playerDiv.appendChild(rockPaperDiv);
-  rockPaperDiv.style.display = "flex";
-  rockPaperDiv.style.flexDirection = "row";
   const scoreHead = document.createElement("h2");
   playerDiv.appendChild(scoreHead);
 
   const rockPaperSciss = ["rock", "paper", "scissors"];
 
-  const computerDiv = createplayerDivs(null, "Computer");
+  const computerDiv = createplayerDivs("Computer");
   computerDiv.style.width = "40%";
   const computerChoice = document.createElement("img");
   computerChoice.src = "images/rock.jpg";
@@ -77,10 +61,7 @@ function createGame(event) {
   const reset = document.createElement("button");
   gameDiv.appendChild(reset);
   reset.innerText = "New Player";
-  reset.style.width = "200px";
-  reset.style.height = "50px";
-  reset.style.margin = "20px auto";
-  reset.style.backgroundColor = "aquamarine";
+  reset.className = "reset-button"
 
   reset.addEventListener("click", function () {
     gameDiv.remove();
