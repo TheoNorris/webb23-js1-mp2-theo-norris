@@ -3,9 +3,9 @@ const form = document.querySelector("form");
 let playerScore = 0;
 let computerScore = 0;
 
-form.addEventListener("submit", saveName);
+form.addEventListener("submit", createGame);
 
-function saveName(event) {
+function createGame(event) {
   event.preventDefault();
   const name = document.querySelector("#name");
   form.remove();
@@ -125,15 +125,19 @@ function saveName(event) {
       }
 
       if (computerScore == 3) {
-        alert(
-          `You suuuuuuuck, ${name.value}! You just lost three games! Have another go!`
-        );
-        reset();
+        setTimeout(function () {
+          alert(
+            `You suuuuuuuck, ${name.value}! You just lost three games! Have another go!`
+          );
+          reset();
+        }, 200);
       } else if (playerScore == 3) {
-        alert(
-          `EYYYY! ${name.value}, You are awesome!! You just won three games! Another Game?`
-        );
-        reset();
+        setTimeout(function () {
+          alert(
+            `EYYYY! ${name.value}, You are awesome!! You just won three games! Another Game?`
+          );
+          reset();
+        }, 200);
       }
     });
   }
