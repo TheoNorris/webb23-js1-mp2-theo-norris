@@ -1,15 +1,34 @@
-const form = document.querySelector("form");
+import {
+  getHighScore,
+  postUser,
+  displayHighScores,
+} from "./modules/backendcalls";
 
 let playerScore = 0;
 let computerScore = 0;
 
+let result = {};
+const scoreDiv = document.getElementById("score-div");
+
+import paperImage from "./images/paper.jpg";
+import rockImage from "./images/rock.jpg";
+import scissorsImage from "./images/scissors.jpg";
+
+const form = document.querySelector("form");
+
 form.addEventListener("submit", createGame);
 
-function createGame(event) {
+export function createGame(event) {
   event.preventDefault();
-  const name = document.querySelector("#name").value;
-  form.remove();
 
+  clearScoreDiv();
+
+  const name = document.querySelector("#name").value;
+  const container = document.getElementById("container");
+  form.reset();
+  container.remove();
+
+  const congratsText = document.createElement("h3");
   const gameDiv = document.createElement("div");
   document.body.append(gameDiv);
   gameDiv.className = "game-div";
@@ -28,7 +47,7 @@ function createGame(event) {
   choiceDiv.className = "choice-div";
 
   function createplayerDivs(player) {
-    div = document.createElement("div");
+    const div = document.createElement("div");
     choiceDiv.appendChild(div);
     div.className = "player-div";
 
@@ -49,11 +68,12 @@ function createGame(event) {
   playerDiv.appendChild(scoreHead);
 
   const rockPaperSciss = ["rock", "paper", "scissors"];
+  const rpsImages = [rockImage, paperImage, scissorsImage];
 
   const computerDiv = createplayerDivs("Computer");
   computerDiv.style.width = "40%";
   const computerChoice = document.createElement("img");
-  computerChoice.src = "images/rock.jpg";
+  computerChoice.src = rockImage;
   computerDiv.appendChild(computerChoice);
   const scoreHeadComp = document.createElement("h2");
   computerDiv.appendChild(scoreHeadComp);
@@ -61,26 +81,27 @@ function createGame(event) {
   const reset = document.createElement("button");
   gameDiv.appendChild(reset);
   reset.innerText = "New Player";
-  reset.className = "reset-button"
+  reset.className = "reset-button";
 
   reset.addEventListener("click", function () {
     gameDiv.remove();
-    document.body.append(form);
+    document.body.append(container);
     name.value = "";
   });
 
   for (let i = 0; i < rockPaperSciss.length; i++) {
     const rps = document.createElement("img");
     rockPaperDiv.appendChild(rps);
-    rps.src = `images/${rockPaperSciss[i]}.jpg`;
+    rps.src = rpsImages[i];
     rps.style.width = "100px";
     rps.style.height = "100px";
     rps.style.margin = "10px";
 
     rps.addEventListener("click", function () {
+      congratsText.innerText = "";
       const compSelect = Math.floor(Math.random() * rockPaperSciss.length);
       const computerTurn = rockPaperSciss[compSelect];
-      computerChoice.src = `images/${computerTurn}.jpg`;
+      computerChoice.src = rpsImages[compSelect];
 
       if (
         (rockPaperSciss[i] == `rock` && computerTurn == `scissors`) ||
@@ -94,32 +115,38 @@ function createGame(event) {
         (computerTurn == `paper` && rockPaperSciss[i] == `rock`) ||
         (computerTurn == `scissors` && rockPaperSciss[i] == `paper`)
       ) {
-        computerScore++;
-        scoreHeadComp.innerText = `Score: ${computerScore}`;
+        playerDiv.append(congratsText);
+        congratsText.innerText = `Congrats ${name}! You scored ${playerScore}`;
+        result = {
+          name: name,
+          score: playerScore,
+        };
+        postUser(result).then(() => {
+          getHighScore().then(displayHighScores);
+        });
+
+        reset();
+      } else {
+        scoreHead.innerText = playerScore;
+        scoreHeadComp.innerText = computerScore;
       }
 
       function reset() {
         computerScore = 0;
         playerScore = 0;
-        scoreHead.innerText = playerScore;
-        scoreHeadComp.innerText = computerScore;
-      }
-
-      if (computerScore == 3) {
-        setTimeout(function () {
-          alert(
-            `You suuuuuuuck, ${name.value}! You just lost three games! Have another go!`
-          );
-          reset();
-        }, 200);
-      } else if (playerScore == 3) {
-        setTimeout(function () {
-          alert(
-            `EYYYY! ${name.value}, You are awesome!! You just won three games! Another Game?`
-          );
-          reset();
-        }, 200);
+        scoreHead.innerText = "";
+        scoreHeadComp.innerText = "";
+        clearScoreDiv();
       }
     });
   }
 }
+
+function clearScoreDiv() {
+  // Remove all child elements of the "score-div" container
+  while (scoreDiv.firstChild) {
+    scoreDiv.removeChild(scoreDiv.firstChild);
+  }
+}
+
+getHighScore().then(displayHighScores);
