@@ -4,7 +4,7 @@ let result = {};
 const scoreDiv = document.getElementById("score-div");
 
 async function getHighScore() {
-  const url = "http://localhost:3003/highscore"; // Corrected URL
+  const url = "http://localhost:3004/highscore"; // Corrected URL
 
   try {
     const response = await fetch(url);
@@ -38,7 +38,7 @@ function displayHighScores(highScoreArray) {
 }
 
 async function postUser(player) {
-  const url = "http://localhost:3003/highscore";
+  const url = "http://localhost:3004/highscore";
 
   const options = {
     method: "POST",
